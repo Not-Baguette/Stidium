@@ -7,7 +7,7 @@ This code is tested per piece so I am not sure if it works but theoritically it 
 
 ## TODO
 - [ ] Test it on a VM
-- [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/blob/main/)
+- [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [ ] Temporarily fix it up so it doesnt quit before decrypting all files
 - [ ] Fix first run issue
 
