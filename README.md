@@ -1,7 +1,7 @@
 # Stidium
 
 ## Description
-Python based ransomware that uses Symmetric key encryption, Believe it or not I made it under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart.
+Python based ransomware that uses Symmetric key encryption, Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart.
 
 This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still not production ready.**
 
@@ -12,6 +12,10 @@ This code is tested per piece so I am not sure if it works but theoritically it 
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [X] fix it so it doesnt quit before decrypting all files
 - [x] Fix first run issue
+- [ ] Check if the amount of files are actually real later
+
+## Preview
+![image](https://user-images.githubusercontent.com/94969176/209453408-bd16a293-23e2-43e0-8f96-29de4b4069dd.png)
 
 ## Dependencies
 - tkinter (for the ransomware demand screen)
