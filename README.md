@@ -5,6 +5,8 @@ Python based ransomware that uses Symmetric key encryption, Believe it or not I 
 
 This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still not production ready.**
 
+`main.py` might be out of date compared to `main - development.py`, this is not because I forgot about it. It is just me still trying to find a reason to do a 5 min work that I could do right now instead of postponing it. (P.S. Just remove most `"""` and some `#` at the end you'd be good to go)
+
 ## TODO
 - [ ] Test it on a VM
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
