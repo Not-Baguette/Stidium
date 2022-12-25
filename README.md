@@ -37,4 +37,4 @@ TBD
 ## More information (Nice to know basis)
 - `file header encryptor & decryptor.py` is another way to encrypt a file, instead of encrypting the whole file, it encrypts just the header.
 
-- This uses AES (Advanced Encryption Standard) algorithm to encrypt but I suggest you look at other algs like `RSA (Rivest-Shamir-Adleman)`, `Blowfish`, `Twofish`, `3DES (Triple DES)`, and `Serpent`. I might consider to move to Blowish or Twofish for it's speed but we'll see
+- This uses `AES (Advanced Encryption Standard)` algorithm to encrypt but I suggest you look at other algs like `RSA (Rivest-Shamir-Adleman)`, `Blowfish`, `Twofish`, `3DES (Triple DES)`, and `Serpent`. I might consider to move to Blowfish or Twofish for it's speed but we'll see
