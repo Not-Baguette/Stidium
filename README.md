@@ -1,13 +1,11 @@
 # Stidium
 
 ## Description
-Python based ransomware that uses Symmetric key encryption, Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart.
+Python based ransomware that uses Symmetric key encryption (AES), Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart.
 
 This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still not production ready.**
 
 `main.py` might be out of date compared to `main - development.py`, this is not because I forgot about it. It is just me still trying to find a reason to do a 5 min work that I could do right now instead of postponing it. (P.S. Just remove most `"""` and some `#` at the end you'd be good to go)
-
-`file header encryptor & decryptor.py` is another way to encrypt a file, instead of encrypting the whole file, it encrypts just the header. I won't use it on the main project but it's a nice-to-know basis
 
 ## TODO
 - [ ] Test it on a VM
@@ -35,3 +33,8 @@ TBD
 - Install dependencies modules
 - remove the commented out encryptor, decryptor, and find_file function alongside the function call on the bottom for inserting to startup and sending via email (I heavily advice against removing the commented out tkinter attributes and configs)
 - Change the BTC address to your own (Unnecessary if you just want a preview)
+
+## More information (Nice to know basis)
+- `file header encryptor & decryptor.py` is another way to encrypt a file, instead of encrypting the whole file, it encrypts just the header.
+
+- This uses AES (Advanced Encryption Standard) algorithm to encrypt but I suggest you look at other algs like `RSA (Rivest-Shamir-Adleman)`, `Blowfish`, `Twofish`, `3DES (Triple DES)`, and `Serpent`. I might consider to move to Blowish or Twofish for it's speed but we'll see
