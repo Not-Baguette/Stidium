@@ -7,6 +7,8 @@ This code is tested per piece so I am not sure if it works but theoritically it 
 
 `main.py` might be out of date compared to `main - development.py`, this is not because I forgot about it. It is just me still trying to find a reason to do a 5 min work that I could do right now instead of postponing it. (P.S. Just remove most `"""` and some `#` at the end you'd be good to go)
 
+`file header encryptor & decryptor.py` is another way to encrypt a file, instead of encrypting the whole file, it encrypts just the header. I won't use it on the main project but it's a nice-to-know basis
+
 ## TODO
 - [ ] Test it on a VM
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
