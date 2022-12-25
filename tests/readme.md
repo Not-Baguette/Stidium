@@ -13,7 +13,7 @@ Open up `generator.py` and change `range(1000):` to any number you want `e.g. ra
 These results are *relative*, they are just for documentation purposes only.
 
 ### AES vs Blowfish
-100,000 files - 1048 bytes each
+100,000 files - 1024 bytes each
 
 ![image](https://user-images.githubusercontent.com/94969176/209466151-4c896bfd-4be4-496c-9e77-56a618f2817a.png)
 
