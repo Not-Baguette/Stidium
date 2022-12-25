@@ -2,8 +2,8 @@ from cryptography.fernet import Fernet
 
 
 def encrypt_header(file_path, key):
+    # Read the first few bytes of the file (which represent the header)
     with open(file_path, 'rb+') as file:
-        # Read the first few bytes of the file (which represent the header)
         header = file.read(8)
         fernet = Fernet(key)
         encrypted_header = fernet.encrypt(header)
@@ -13,8 +13,8 @@ def encrypt_header(file_path, key):
 
 
 def decrypt_header(file_path, key):
+    # Read the first few bytes of the file (which represent the encrypted header)
     with open(file_path, 'rb+') as file:
-        # Read the first few bytes of the file (which represent the encrypted header)
         encrypted_header = file.read(8)
         fernet = Fernet(key)
         header = fernet.decrypt(encrypted_header)
