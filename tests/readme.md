@@ -11,4 +11,4 @@ These results are *relative*, they are just for documentation purposes only.
 
 ### AES vs Blowfish
 100,000 files - 1248 bytes each
-TBD
+![image](https://user-images.githubusercontent.com/94969176/209466151-4c896bfd-4be4-496c-9e77-56a618f2817a.png)
