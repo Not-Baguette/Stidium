@@ -17,9 +17,9 @@ These results are *relative*, they are just for documentation purposes only.
 
 ![image](https://user-images.githubusercontent.com/94969176/209466151-4c896bfd-4be4-496c-9e77-56a618f2817a.png)
 
-Blowfish Encryption time: 22.86 Minutes
-Blowfish Decryption time: 4.34 Minutes
-AES Encryption time: 43.8 Minutes
-AES Encryption time: 36.73 Minutes
+- Blowfish Encryption time: 22.86 Minutes
+- Blowfish Decryption time: 4.34 Minutes
+- AES Encryption time: 43.8 Minutes
+- AES Encryption time: 36.73 Minutes
 
 Conclusion: Blowfish is far better than AES when presented with huge amount of data, which is what we need.
