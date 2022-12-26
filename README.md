@@ -14,7 +14,7 @@ This project is for educational purposes only to show how would a ransomware pos
 - [X] fix it so it doesnt quit before decrypting all files
 - [x] Fix first run issue
 - [ ] Check if the amount of files are actually real later
-- [ ] Fix the grammar error on the label
+- [X] Fix the grammar error on the label
 - [ ] Make a 128 long random string as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
 
 ## Preview
