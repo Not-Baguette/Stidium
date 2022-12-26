@@ -23,4 +23,4 @@ These results are *relative*, they are just for documentation purposes only.
 - AES Encryption time: 43.8 Minutes
 - AES Encryption time: 36.73 Minutes
 
-Conclusion: Blowfish is far better than AES when presented with huge amount of data, which is what we need.
+Conclusion: Blowfish is far better than AES when presented with huge amount of data, which is what we need. And doing it to 100,000 files is not good
