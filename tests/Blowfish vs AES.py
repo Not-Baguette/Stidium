@@ -1,6 +1,7 @@
 from Cryptodome.Cipher import Blowfish
 from Cryptodome.Random import get_random_bytes
 from cryptography.fernet import Fernet
+import time
 import os
 
 
@@ -80,20 +81,20 @@ size = len(file_set)
 start = time.time()
 for file in file_set:
     encrypt_file(enc_key, file, init_vect)
-print(f"Time to encrypt {size} files via Blowfish algorithm: " + str(time.time() - start))
+print(f"Time to encrypt {size} files via Blowfish algorithm: {str(time.time() - start)} seconds")
 
 start = time.time()
 for file in file_set:
     decrypt_file(enc_key, file, init_vect)
-print(f"Time to decrypt {size} files via Blowfish algorithm: " + str(time.time() - start))
+print(f"Time to decrypt {size} files via Blowfish algorithm: {str(time.time() - start)} seconds")
 
 start = time.time()
 decr_key = Fernet.generate_key()
 for file in file_set:
     try_func(file, decr_key)
-print(f"Time to encrypt {size} files via AES algorithm: " + str(time.time() - start))
+print(f"Time to encrypt {size} files via AES algorithm: {str(time.time() - start)} seconds")
 
 start = time.time()
 for file in file_set:
     try_func_decr(file, decr_key)
-print(f"Time to decrypt {size} files via AES algorithm: " + str(time.time() - start))
+print(f"Time to decrypt {size} files via AES algorithm: {str(time.time() - start)} seconds")
