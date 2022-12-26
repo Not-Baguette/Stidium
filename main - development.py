@@ -94,7 +94,7 @@ def file_find(key):
     for path in drives:
         for root, dirs, files in os.walk(path):
             for file in files:
-                if file.endswith(EXTENSION) and (not file.startswith("~$") and not in PRIORITY) and (not in AVOID):
+                if file.endswith(EXTENSION) and (not file.startswith("~$") and (file not in PRIORITY) and (file not in AVOID):
                     try:
                         # get the last modified time of the file
                         file_set.add(os.path.join(root, file))  # add it to the set
