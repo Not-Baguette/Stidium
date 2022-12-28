@@ -1,3 +1,8 @@
+from twofish import Twofish
+import random
+import string
+import os
+
 def encrypt_file_two(file_path, key):
     # Set block size to 16 bytes (128 bits)
     block_size = 16
