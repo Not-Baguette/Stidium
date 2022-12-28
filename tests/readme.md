@@ -27,12 +27,14 @@ These results are *relative*, they are just for documentation purposes only.
 ### AES vs Blowfish
 #### 10,000 files - 1024 bytes each (1.0 KB)
 
-TBA
+![image](https://user-images.githubusercontent.com/94969176/209776179-18ca3f4e-6a71-487a-9327-3531e7c07593.png)
 
-- Blowfish Encryption time:  Seconds
-- Blowfish Decryption time:  Seconds
-- AES Encryption time:  Seconds
-- AES Encryption time:  Seconds
+- Blowfish Encryption time: 20 Seconds
+- Blowfish Decryption time: 15 Seconds
+- AES Encryption time: 13 Seconds
+- AES Encryption time: 15 Seconds
+
+Conclusion: AES have better security and time when dealing with small amount of files but loses out on larger ones as we can see down below.
 
 #### 100,000 files - 1024 bytes each (1.0 KB)
 
