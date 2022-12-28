@@ -19,6 +19,12 @@ The protocol is personal, you dont need to follow it.
 - Change the files every test
 - Stop indexing ASAP
 
+Conclusion: Blowfish is far better than AES when presented with huge amount of files, which is what we need. And doing it to 100,000 files is not good. But AES seems to perform better at smaller amount of files. More testing needed to validate the data. Also I noticed alot of files come out still somewhat corrupted, Might be faulty Blowfish algorithm on my part
+
+## Results
+These results are *relative*, they are just for documentation purposes only.
+
+### AES vs Blowfish
 #### 10,000 files - 1024 bytes each (1.0 KB)
 
 TBA
@@ -28,20 +34,16 @@ TBA
 - AES Encryption time:  Seconds
 - AES Encryption time:  Seconds
 
-Conclusion: Blowfish is far better than AES when presented with huge amount of files, which is what we need. And doing it to 100,000 files is not good. But AES seems to perform better at smaller amount of files. More testing needed to validate the data. Also I noticed alot of files come out still somewhat corrupted, Might be faulty Blowfish algorithm on my part
-
-## Results
-These results are *relative*, they are just for documentation purposes only.
-
-### AES vs Blowfish
 #### 100,000 files - 1024 bytes each (1.0 KB)
 
-TBA
+![image](https://user-images.githubusercontent.com/94969176/209466151-4c896bfd-4be4-496c-9e77-56a618f2817a.png)
 
-- Blowfish Encryption time:  Minutes
-- Blowfish Decryption time:  Minutes
-- AES Encryption time:  Minutes
-- AES Encryption time:  Minutes
+- Blowfish Encryption time: 22.86 Minutes
+- Blowfish Decryption time: 4.34 Minutes
+- AES Encryption time: 43.8 Minutes
+- AES Encryption time: 36.73 Minutes
+
+Conclusion: I have decided that I am going to use the result from `readme.md` as even if it's a little inaccurate, the results are very clear
 
 ## Twofish vs Blowfish
 
