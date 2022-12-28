@@ -26,7 +26,7 @@ def decrypt_file(key, file_path, iv):
 
     # Decrypt the contents of the file
     plaintext = decipher.decrypt(ciphertext)
-    with open(file_path + ".enc", "wb") as f:
+    with open(file_path, "wb") as f:
         f.write(plaintext)
 
 
