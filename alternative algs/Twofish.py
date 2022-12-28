@@ -1,51 +1,57 @@
-from Crypto.Cipher import Twofish
+from twofish import Twofish
+import random
+import string
 import os
 
-def encrypt_file(input_file, key):
-    # Create the output file name by appending '.enc' to the input file name
-    output_file = input_file + '.enc'
 
-    # Open the input and output files
-    with open(input_file, 'rb') as in_file, open(output_file, 'wb') as out_file:
-        # Create a Twofish cipher object
-        cipher = Twofish.new(key, Twofish.MODE_CFB)
+def encrypt_file_two(input_file, key):
+    # Set block size to 16 bytes (128 bits)
+    block_size = 16
 
-        # Read the input file in blocks of 128 bytes
-        while True:
-            block = in_file.read(128)
-            if len(block) == 0:
-                break
-            elif len(block) % 16 != 0:
-                # If the block is not a multiple of 16 bytes, pad it with zeros
-                block += b'\x00' * (16 - len(block) % 16)
-            
-            # Write the encrypted block to the output file
-            out_file.write(cipher.encrypt(block))
+    with open(input_file, "r") as f:
+        plaintext = f.read()
 
-def decrypt_file(output_file, key):
-    input_file = output_file + '.enc'
+    if len(plaintext) % block_size:
+        padded_plaintext = str(plaintext + "%" * (block_size - len(plaintext) % block_size)).encode("utf-8")
+    else:
+        padded_plaintext = plaintext.encode("utf-8")
 
-    # Open the input and output files
-    with open(input_file, 'rb') as in_file, open(output_file, 'wb') as out_file:
-        # Create a Twofish cipher object
-        cipher = Twofish.new(key, Twofish.MODE_CFB)
+    cipher = Twofish(str.encode(key))
+    ciphertext = b""
+    for i in range(int(len(padded_plaintext) / block_size)):
+        ciphertext += cipher.encrypt(padded_plaintext[i * block_size:(i + 1) * block_size])
 
-        # Read the input file in blocks of 128 bytes
-        while True:
-            block = in_file.read(128)
-            if len(block) == 0:
-                break
+    with open(input_file + ".enc", "wb") as f:
+        f.write(ciphertext)
 
-            # Write the decrypted block to the output file
-            out_file.write(cipher.decrypt(block))
+    os.remove(input_file)
 
-    
-# Define the key and input file name as strings
-key = os.urandom(32)
-input_file = 'input.txt'
 
-# Encrypt the file
-encrypt_file(input_file, key)
+def decrypt_file_two(output_file, key):
+    output_file += ".enc"
+    block_size = 16
 
-# Decrypt the file
-decrypt_file(input_file, key)
+    with open(output_file, "rb") as f:
+        ciphertext = f.read()
+
+    cipher = Twofish(str.encode(key))
+
+    plaintext = b""
+    for i in range(int(len(ciphertext) / block_size)):
+        plaintext += cipher.decrypt(ciphertext[i * block_size:(i + 1) * block_size])
+    stripped_plaintext = plaintext.decode("utf-8").strip("%")
+
+    with open(output_file[:-4], "wb") as f:
+        f.write(stripped_plaintext.encode("utf-8"))
+
+    os.remove(output_file)
+
+
+# Set password as 32 letter string (why systemrandom? https://stackoverflow.com/a/23728630/2213647)
+decr_key = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(32))
+
+# Encrypt a file
+encrypt_file_two("test.txt", decr_key)
+
+# Decrypt the encrypted file
+decrypt_file_two("test.txt", decr_key)
