@@ -19,7 +19,7 @@ The protocol is personal, you dont need to follow it.
 - Change the files every test
 - Stop indexing ASAP
 
-Conclusion: Blowfish is far better than AES when presented with huge amount of files, which is what we need. And doing it to 100,000 files is not good. But AES seems to perform better at smaller amount of files. More testing needed to validate the data. Also I noticed alot of files come out still somewhat corrupted, Might be faulty Blowfish algorithm on my part
+Conclusion: Blowfish is far better than AES when presented with huge amount of files, which is what we need. And doing it to 100,000 files is not good. But AES seems to perform better at smaller amount of files. More testing needed to validate the data. Also I noticed alot of files come out still somewhat corrupted, Might be faulty Blowfish algorithm on my part (Update: I tried it with `.pdf`s and it doesnt seem to cause an issue.)
 
 ## Results
 These results are *relative*, they are just for documentation purposes only.
@@ -78,4 +78,4 @@ Conclusion: Twofish is approximately 1 seconds slower but it is even small to ta
 - Blowfish Encryption time: 18.65 Minutes
 - Blowfish Encryption time: 21.43 Minutes
 
-Conclusion: `Twofish` is approximately 11 minutes slower but have better security, since we are pretty much looking for fastness, `Blowfish` should be the fastest.
+Conclusion: `Twofish` is approximately 11 minutes slower but have better security, since we are pretty much looking for fastness, `Blowfish` should be the fastest. The results might be increased because I forgot that my discord, youtube, etc. were open, but since it's a nearly constant thing, it shouldn't matter relative to each another.
