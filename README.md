@@ -16,6 +16,7 @@ This project is for educational purposes only to show how would a ransomware pos
 - [ ] Check if the amount of files are actually real later
 - [X] Fix the grammar error on the label
 - [ ] Make a 128 long random string as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
+- [ ] Stops all running programs so it can properly encrypt it incase the user are opening other programs
 
 ## Preview
 ![image](https://user-images.githubusercontent.com/94969176/209453408-bd16a293-23e2-43e0-8f96-29de4b4069dd.png)
