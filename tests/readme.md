@@ -69,9 +69,11 @@ Conclusion: Twofish is approximately 1 seconds slower but it is even small to ta
 
 #### 100,000 files -  1024 bytes each (1.0 KB)
 
-ONGOING
+![image](https://user-images.githubusercontent.com/94969176/209772987-3ccd3c08-5ff8-4272-9914-bcc1f33b7c9d.png)
 
-- Twofish Encryption time:  Minutes
-- Twofish Decryption time:  Minutes
-- Blowfish Encryption time:  Minutes
-- Blowfish Encryption time:  Minutes
+- Twofish Encryption time: 29.11 Minutes
+- Twofish Decryption time: 21.67 Minutes
+- Blowfish Encryption time: 18.65 Minutes
+- Blowfish Encryption time: 21.43 Minutes
+
+Conclusion: `Twofish` is approximately 11 minutes slower but have better security, since we are pretty much looking for fastness, `Blowfish` should be the fastest.
