@@ -5,7 +5,7 @@ This folder is filled with comparisons between other algorithms, this can differ
 
 ## Todo
 - [ ] instead of making seperate files, just make one file that contain all the algs and let the user pick
-- [ ] Auto clean the directory
+- [X] Auto clean the directory
 
 ## Dependencies
 - pycryptodomex
