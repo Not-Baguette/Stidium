@@ -2,4 +2,4 @@
 ## Description
 This is where I store alternative algorithms
 
-- [Credit](https://github.com/sommer/loxodo/tree/master/src/twofish)
+- [Credit](https://github.com/sommer/loxodo/tree/master/src/twofish) for blowfish
