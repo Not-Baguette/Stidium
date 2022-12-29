@@ -84,4 +84,4 @@ Conclusion: `Twofish` is approximately 11 minutes slower but have better securit
 
 ## Notice
 - I recently rewrote `twofish` to make it simpler yet slightly imperfect, better than the incredibly glitchy one back then though, I'll reconduct tests on it
-- (Credit)[https://github.com/sommer/loxodo/tree/master/src/twofish] for the twofish implementation
+- [Credit](https://github.com/sommer/loxodo/tree/master/src/twofish) for the twofish implementation
