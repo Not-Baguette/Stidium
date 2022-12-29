@@ -81,3 +81,7 @@ Conclusion: Twofish is approximately 1 seconds slower but it is even small to ta
 - Blowfish Encryption time: 21.43 Minutes
 
 Conclusion: `Twofish` is approximately 11 minutes slower but have better security, since we are pretty much looking for fastness, `Blowfish` should be the fastest. The results might be increased because I forgot that my discord, youtube, etc. were open, but since it's a nearly constant thing, it shouldn't matter relative to each another.
+
+## Notice
+- I recently rewrote `twofish` to make it simpler yet slightly imperfect, better than the incredibly glitchy one back then though, I'll reconduct tests on it
+- (Credit)[https://github.com/sommer/loxodo/tree/master/src/twofish] for the twofish implementation
