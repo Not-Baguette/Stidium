@@ -1,7 +1,7 @@
 # Stidium
 
 ## Description
-Python based ransomware that uses Symmetric key encryption (AES), Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart. This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still not production ready.**
+Python based ransomware that uses Symmetric key encryption (AES), Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart. This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still in early stages of testing.**
 
 `main.py` might be out of date compared to `main - development.py`, this is not because I forgot about it. It is just me still trying to find a reason to do a 5 min work that I could do right now instead of postponing it. (P.S. Just remove most `"""` and some `#` at the end you'd be good to go)
 CURRENT STATUS: **main.py is not outdated**
