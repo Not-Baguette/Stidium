@@ -8,7 +8,7 @@ CURRENT STATUS: **main.py is not outdated**
 
 This project is for educational purposes only to show how would a ransomware possibly work and encrypt your data
 
-## TODO (Finish it all before actually releasing v1.0-beta)
+## TODO (Finish it all before actually releasing v1.0.0-beta)
 - [ ] Test it on a VM
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [X] fix it so it doesnt quit before decrypting all files
