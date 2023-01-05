@@ -1,7 +1,7 @@
 # Stidium
 
 ## Description
-Python based ransomware that uses Symmetric key encryption (AES), Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart. This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still in early stages of testing.**
+Python based ransomware that uses Symmetric key encryption (AES), Believe it or not I made the first version under 24 hours (So expect the code to be messy). It has stuff like a normal ransomware do, a list of encrypted files, the amount, the btc address to pay, decryptor, and it saves even after restart (Also smtplib will show the user static IP by opening gmail, scrolling down to the bottom, and click `details` on the bottom right [below `Last account activity: ... minute`]). This code is tested per piece so I am not sure if it works but theoritically it should. **This version is still in early stages of testing.**
 
 `main.py` might be out of date compared to `main - development.py`, this is not because I forgot about it. It is just me still trying to find a reason to do a 5 min work that I could do right now instead of postponing it. (P.S. Just remove most `"""` and some `#` at the end you'd be good to go)
 CURRENT STATUS: **main.py is not outdated**
@@ -13,11 +13,11 @@ This project is for educational purposes only to show how would a ransomware pos
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [X] fix it so it doesnt quit before decrypting all files
 - [x] Fix first run issue
-- [ ] Check if the amount of files are actually real later
+- [X] Check if the amount of files are actually real later
 - [X] Fix the grammar error on the label
-- [ ] Make a 128 long random string as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
+- [X] Make several U+200b as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
 - [ ] Stops all running programs so it can properly encrypt it incase the user are opening other programs
-- [ ] Adding a safeguard feature
+- [X] Adding a safeguard feature
 
 ## Preview
 ![image](https://user-images.githubusercontent.com/94969176/209453408-bd16a293-23e2-43e0-8f96-29de4b4069dd.png)
