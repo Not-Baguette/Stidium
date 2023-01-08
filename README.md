@@ -16,7 +16,7 @@ This project is for educational purposes only to show how would a ransomware pos
 - [X] Check if the amount of files are actually real later
 - [X] Fix the grammar error on the label
 - [X] Make several U+200b as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
-- [ ] Stops all running programs so it can properly encrypt it incase the user are opening other programs
+- [X] Stops all running programs that are not essential
 - [X] Adding a safeguard feature
 
 ## Preview
