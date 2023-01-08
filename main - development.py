@@ -454,7 +454,8 @@ def shut_apps():
 
     for i in running_apps:
         if i not in AVOID and i not in AVOID2:
-            os.system(f"taskkill /f /im {i}")
+            # os.system(f"taskkill /f /im {i}")
+            pass
 
 
 def main():
