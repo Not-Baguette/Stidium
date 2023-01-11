@@ -14,9 +14,9 @@ import winreg
 import base64
 import requests
 
-SENDER = "sd@gmail.com"
-SENDER_P = "dassdaweirosdjkh"  # App password here,
-RECEIVER = "dff@gmail.com"
+SENDER = ""
+SENDER_P = ""  # App password here,
+RECEIVER = ""
 timer = 60 * 60 * 48  # 48 hours
 
 
