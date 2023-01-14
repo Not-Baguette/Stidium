@@ -21,6 +21,7 @@ This project is for educational purposes only to show how would a ransomware pos
 ### TODO (Before v1.1.0-beta)
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [ ] Switch to `Twofish` or `Blowfish` Algorithm.
+- [ ] Make it so that even if the user stops the process of nuking, once reopened it will just continue
 
 
 ## Preview
