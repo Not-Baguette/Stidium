@@ -10,7 +10,6 @@ This project is for educational purposes only to show how would a ransomware pos
 
 ## TODO (Finish it all before actually releasing v1.0.0-beta)
 - [ ] Test it on a VM
-- [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [X] fix it so it doesnt quit before decrypting all files
 - [x] Fix first run issue
 - [X] Check if the amount of files are actually real later
@@ -18,6 +17,11 @@ This project is for educational purposes only to show how would a ransomware pos
 - [X] Make several U+200b as the name incase the user uses `taskkill /f` (doesn't decrypt the files though)
 - [X] Stops all running programs that are not essential
 - [X] Adding a safeguard feature
+
+### TODO (Before v1.1.0-beta)
+- [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
+- [ ] Switch to `Twofish` or `Blowfish` Algorithm.
+
 
 ## Preview
 ![image](https://user-images.githubusercontent.com/94969176/209453408-bd16a293-23e2-43e0-8f96-29de4b4069dd.png)
