@@ -8,20 +8,11 @@ CURRENT STATUS: **main.py is not outdated**
 
 This project is for educational purposes only to show how would a ransomware possibly work and encrypt your data
 
-## TODO (Finish it all before actually releasing v1.0.0-beta)
-- [X] Test it on a VM
-- [X] fix it so it doesnt quit before decrypting all files
-- [x] Fix first run issue
-- [X] Check if the amount of files are actually real later
-- [X] Fix the grammar error on the label
-- [X] Put several U+200b as the name (doesn't decrypt the files though)
-- [X] Stops all running programs that are not essential
-- [X] Adding a safeguard feature
-
 ### TODO (Before v1.1.0-beta)
 - [ ] Finish up `post-infect` function that infects it with [Project Gideon](https://github.com/Not-Baguette/Project-Gideon/)
 - [ ] Switch to `Twofish` or `Blowfish` Algorithm.
 - [ ] Make it so that even if the user stops the process of nuking, once reopened it will just continue
+- [ ] More Testing
 
 
 ## Preview
